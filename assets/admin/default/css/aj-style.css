@@ -1,0 +1,188 @@
+.auth-box {
+  background-color: #fff;
+  max-width: 320px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.auth-box .login-a-header {
+  margin-bottom: 0;
+  -webkit-box-shadow: unset;
+          box-shadow: unset;
+}
+
+.auth-box .login-a-header .header {
+  -webkit-filter: drop-shadow(-1px 6px 3px #00000017);
+          filter: drop-shadow(-1px 6px 3px #00000017);
+}
+
+.auth-box .login-a-header .header img {
+  position: relative;
+  vertical-align: top;
+  margin-top: 2px;
+  height: 100px;
+  color: #000;
+  top: -32px;
+  margin-bottom: -30px;
+  -webkit-transition: .3s;
+  transition: .3s;
+  -webkit-clip-path: polygon(50% 100%, 0 0, 100% 0);
+          clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.auth-box .login-a-header .form-control {
+  height: 45px;
+  border-radius: 0;
+}
+
+.theme-orange .auth-main .btn-primary {
+  background-color: #FE9100 !important;
+  border-color: #FE9100 !important;
+}
+
+.theme-orange .fancy-checkbox input[type="checkbox"]:checked + span:before {
+  background: #FE9100 !important;
+  border-color: #FE9100 !important;
+  font-size: 16px;
+}
+
+.theme-orange .page-loader-wrapper {
+  background: #feeedc !important;
+}
+
+.theme-orange .page-loader-wrapper .loader {
+  -webkit-filter: drop-shadow(-1px 6px 3px #00000017);
+          filter: drop-shadow(-1px 6px 3px #00000017);
+}
+
+.theme-orange .page-loader-wrapper .loader img {
+  -webkit-transition: .3s;
+  transition: .3s;
+  -webkit-clip-path: polygon(50% 100%, 0 0, 100% 0);
+          clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.theme-orange .page-loader-wrapper p {
+  color: #000;
+  margin: 0;
+  position: relative;
+  top: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form-aj {
+  position: relative;
+}
+
+.form-aj .min-box-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 20px;
+}
+
+.form-aj .min-box-row .min-box {
+  width: 31.33%;
+}
+
+.form-aj .min-box-row .min-box:last-child {
+  -ms-flex-item-align: end;
+      -ms-grid-row-align: end;
+      align-self: end;
+}
+
+.form-aj .min-box-row .min-box:last-child .btn-primary {
+  color: #fff;
+  background-color: #FE9100;
+  border-color: #FE9100;
+  height: 42px;
+  margin-bottom: 6px;
+}
+
+.form-aj .min-box-row .min-box .form-group {
+  margin-bottom: 0;
+  /* Firefox */
+}
+
+.form-aj .min-box-row .min-box .form-group input::-webkit-outer-spin-button,
+.form-aj .min-box-row .min-box .form-group input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-aj .min-box-row .min-box .form-group input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.form-aj .min-box-row .min-box .form-group input {
+  width: 100%;
+  height: 42px;
+  padding: 5px 10px;
+  border-radius: 0;
+  border: 1px solid #ddd;
+}
+
+.form-aj .min-box-row .min-box .form-group select {
+  padding: 5px 10px;
+  width: 100%;
+  height: 42px;
+  border-radius: 0;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.form-aj .min-box-row .min-box .form-group textarea {
+  width: 100%;
+  height: 42px;
+  border-radius: 0;
+  border: 1px solid #ddd;
+}
+
+.form-aj .min-box-row .min-box .form-group textarea:focus,
+.form-aj .min-box-row .min-box .form-group input:focus,
+.form-aj .min-box-row .min-box .form-group select:focus {
+  outline: none;
+  border: 1px solid #FE9100;
+}
+
+@media only screen and (max-width: 767px) {
+  .form-aj .min-box-row .min-box {
+    width: 48%;
+  }
+  .form-aj .min-box-row .min-box:last-child {
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+  }
+  .form-aj .btn-primary {
+    color: #fff;
+    background-color: #FE9100;
+    border-color: #FE9100;
+    height: 42px;
+    position: relative;
+    bottom: -6px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .form-aj .min-box-row .min-box {
+    width: 100%;
+  }
+  .form-aj .min-box-row .min-box:last-child {
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center;
+  }
+  .form-aj .btn-primary {
+    color: #fff;
+    background-color: #FE9100;
+    border-color: #FE9100;
+    height: 42px;
+    position: relative;
+    bottom: 0;
+  }
+}
+/*# sourceMappingURL=aj-style.css.map */

@@ -1,0 +1,197 @@
+.faq-section {
+    margin-top: 130px;
+    padding-top: 20px;
+    .faq-teb-box {
+        .nav {
+            &.faq-menu {
+                box-shadow: 0 0 15px 0 #00000045;
+                padding: 12px 15px;
+                gap: 30px;
+                li {
+                    a {
+                        color: $b;
+                        transition: .5s;
+                        position: relative;
+                        &:before {
+                            transition: .5s;
+                            content: "";
+                        }
+                        &:hover,
+                        &.active {
+                            transition: .5s;
+                            &:before {
+                                transition: .5s;
+                                content: "";
+                                left: -10px;
+                                bottom: -15px;
+                                position: absolute;
+                                width: 130%;
+                                height: 2px;
+                                background-color: $color1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .box-sa {
+            padding: 50px 0;
+            text-align: center;
+            input {
+                width: 60%;
+                margin: 20px auto 0;
+                padding: 5px 15px;
+                height: 50px;
+                border: 1px solid #bbb;
+                font-size: 14px;
+                &::placeholder {
+                    font-size: 14px;
+                }
+                &:focus,
+                &.active,
+                &:hover {
+                    border: 1px solid $color1 !important;
+                }
+                &:invalid {
+                    border: 1px solid red !important;
+                }
+            }
+        }
+        .left-box {
+            .nae {
+                padding-top: 30px;
+                margin-bottom: 20px;
+            }
+            width: 100%;
+            margin-bottom: 50px;
+            .faq-accordion {
+                .accordion {
+                    list-style-type: none;
+                    padding-left: 0;
+                    margin-bottom: 0;
+                    .accordion-item {
+                        display: block;
+                        margin-bottom: 10px;
+                        border: 1px solid #ffa7194d;
+                        box-sizing: border-box;
+                        box-shadow: 0px 0px 4px #0000001a;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                    .accordion-item.active {
+                        margin-bottom: 0;
+                    }
+                    .accordion-title {
+                        padding: 15px 40px 15px 15px;
+                        color: #222222;
+                        text-decoration: none;
+                        position: relative;
+                        display: block;
+                        font-size: 16px;
+                        i {
+                            position: absolute;
+                            left: unset;
+                            right: 15px;
+                            top: 17px;
+                            font-size: 16px;
+                            -webkit-transition: all ease 0.5s;
+                            transition: all ease 0.5s;
+                            color: $color1;
+                            border-radius: 50%;
+                        }
+                    }
+                    .accordion-title.active {
+                        i {
+                            &::before {
+                                content: "\f068";
+                            }
+                        }
+                    }
+                    .accordion-content {
+                        display: none;
+                        position: relative;
+                        margin-top: -5px;
+                        position: relative;
+                        margin-top: -5px;
+                        padding: 0 15px 15px;
+                        p {
+                            margin-bottom: 0;
+                            font-size: 14px;
+                            line-height: 20px;
+                            opacity: 0.5;
+                        }
+                    }
+                    .accordion-content.show {
+                        display: block;
+                    }
+                }
+            }
+        }
+        .nae {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 8px;
+        }
+        .knowledge-box {
+            .main-box1 {
+                margin-top: 50px;
+                margin-bottom: 50px;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                .list {
+                    padding: 40px;
+                    position: relative;
+                    transition: .5s;
+                    &:hover {
+                        box-shadow: 0 0 15px 0 #0000006e;
+                        transition: .5s;
+                        &:before,
+                        &:after {
+                            transition: .5s;
+                            background-color: #0000;
+                        }
+                    }
+                    &:nth-child(1),
+                    &:nth-child(4),
+                    &:nth-child(7) {
+                        &:after {
+                            content: unset;
+                        }
+                    }
+                    &:nth-child(7),
+                    &:nth-child(8),
+                    &:nth-child(9) {
+                        &:before {
+                            content: unset;
+                        }
+                    }
+                    &:before {
+                        position: absolute;
+                        content: "";
+                        width: 90%;
+                        left: 5%;
+                        height: 1px;
+                        background-color: #ddd;
+                        bottom: 0;
+                    }
+                    &:after {
+                        position: absolute;
+                        content: "";
+                        width: 1px;
+                        top: 10%;
+                        left: 0;
+                        height: 80%;
+                        background-color: #ddd;
+                    }
+                    .x-pas {
+                        p {
+                            opacity: .7;
+                            margin-bottom: 0;
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

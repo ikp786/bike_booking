@@ -1,0 +1,44 @@
+$color1: #FE9100;
+// $color2: #282828;
+// $color3: #EDC481;
+// $color4: #F1F1F1;
+// $color5: #F7E5C7;
+// $color6: #FFF2F1;
+// $color7: #FFFEE5;
+// $color8: #F5F5F5;
+// $color9: #FFEED0;
+// $color10: #EFEFEF;
+// $color11: #ECB75F;
+// $color12: #FFD180;
+// $color13: #1A1A1A;
+$b:#000;
+$w:#fff;
+$color-bac: linear-gradient(90deg, #FFF1C4 0%, #FFEEDB 60.42%);
+$color-bac1: linear-gradient(0deg, #8B5C26, #8B5C26),
+radial-gradient(50% 50% at 50% 50%, rgba(51, 51, 51, 0.32) 0%, rgba(51, 51, 51, 0) 48.44%, rgba(51, 51, 51, 0) 80.21%);
+$fontp:'Poppins';
+$fontr:'Roboto';
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../user/fonts/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../user/fonts/Roboto-Regular.ttf');
+}
+
+:focus {
+    outline: unset !important;
+    border: unset;
+    box-shadow: unset !important;
+}
+
+a {
+    color: $color1;
+    text-decoration: none !important;
+}
+
+input:focus {
+    border: 1px solid #0000 !important;
+}

@@ -1,0 +1,166 @@
+@import "color.scss";
+@import "common.scss";
+.footer-section-n {
+    position: relative;
+    background-image: url("../../../assets/user/img/footer-b2.png");
+    background-size: 40%;
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    .footer-section-boxa {
+        background-color: #000000cc;
+    }
+    .foter-main-box {
+        display: flex;
+        padding-top: 50px;
+        .box2 {
+            flex-basis: 200px;
+            margin-right: 1.6rem;
+            .name-b {
+                color: $w;
+                font-weight: bold;
+            }
+            .links-ul {
+                .links {
+                    a {
+                        color: $w;
+                        font-weight: 400;
+                        line-height: 1.4;
+                        font-size: 14px;
+                        display: block;
+                        padding: 4px 0;
+                        &:hover {
+                            color: $color1;
+                        }
+                    }
+                }
+            }
+        }
+        .box1 {
+            padding: 0;
+            order: 0;
+            flex-shrink: 0;
+            margin-right: auto;
+            width: 400px;
+            p {
+                color: $w;
+                font-family: $fontp;
+                font-size: 14px;
+                text-transform: capitalize;
+            }
+            .loinks-box {
+                width: 75%;
+                margin-bottom: 30px;
+                margin-top: 20px;
+                display: flex;
+                gap: 25px;
+                a {
+                    img {
+                        width: 100%;
+                    }
+                    box-shadow: 0 0 10px 0 #fff;
+                    border-radius: 5px;
+                    overflow: hidden;
+                }
+            }
+            .social-box {
+                .list-social {
+                    margin: 20px 0;
+                    .social-link {
+                        .link-social {
+                            display: inline-block;
+                            width: 40px;
+                            height: 40px;
+                            text-align: center;
+                            line-height: 40px;
+                            margin: 0 4px;
+                            border-radius: 7px;
+                            &.facebook {
+                                background-color: #4267B2;
+                            }
+                            &.youtub {
+                                background: #FF0000;
+                            }
+                            &.whats-up {
+                                background: #45c557;
+                            }
+                            &.instagram {
+                                background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+                                box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);
+                            }
+                            a {
+                                display: block;
+                            }
+                            &:hover {
+                                transition: .5s;
+                                a {
+                                    transition: .5s;
+                                    animation: windyX 1000ms both;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .bootom-min {
+        // background: $color13;
+        padding-bottom: 40px;
+        .main-box-links {
+            padding-top: 20px;
+            border-top: 1px solid #bbbbbb80;
+            margin-top: 30px;
+            .box-1 {
+                .links {
+                    display: flex;
+                    margin-bottom: 0;
+                    justify-content: center;
+                    padding-left: 0;
+                    li {
+                        margin: 0 10px;
+                        a {
+                            padding: 20px 10px;
+                            text-transform: capitalize;
+                            color: $w;
+                            font-size: 18px;
+                            display: block;
+                            position: relative;
+                            font-weight: 500;
+                            font-family: $fontr;
+                            &:hover {
+                                color: $color1;
+                            }
+                            &.logo-c {
+                                position: relative;
+                                width: 150px;
+                                padding: 0 0 0 4px;
+                                img {
+                                    width: 125px;
+                                    top: -11px;
+                                    position: absolute;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .bottam-strrep {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        background: #00000075;
+        padding: 10px 0 6px;
+        font-size: 13px;
+        .main-bott-box {
+            text-align: center;
+            .left {
+                p {
+                    color: $w;
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

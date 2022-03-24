@@ -1,0 +1,155 @@
+    @import "scss/header";
+    @import "scss/footer";
+    @import "scss/index";
+    @import "scss/product";
+    @import "scss/faq";
+    @import "scss/safety";
+    @import "scss/responsive";
+    .login-sign-up {
+        padding: 120px 0 50px;
+        border-top: 1px solid #eee;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        .log-sign-box {
+            margin: 0 auto;
+            max-width: 320px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 15px 0 #bbb;
+            .right {
+                padding: 30px;
+                h2,
+                h3 {
+                    font-family: $fontp;
+                    color: $color1;
+                    font-weight: 100;
+                    margin-bottom: 20px;
+                    text-align: center;
+                }
+                p {
+                    color: #000;
+                    text-align: center;
+                    a {
+                        color: $color1;
+                        transition: .3s;
+                        font-weight: 900;
+                        border-bottom: 1px solid $color1;
+                        &:hover {
+                            color: #000;
+                            border-bottom: 1px solid #000;
+                            transition: .3s;
+                        }
+                    }
+                }
+                .social-box {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 5px;
+                    .box-sign-in-googel {
+                        position: relative;
+                        border: 1px solid #eb4334;
+                        display: block;
+                        background: #eb4334;
+                        color: #fff;
+                        text-decoration: none;
+                        text-align: center;
+                        height: fit-content;
+                        padding: 5px 10px 0 0;
+                        font-size: 14px;
+                        border-radius: 5px;
+                    }
+                    .box-sign-in-facebook {
+                        position: relative;
+                        border: 1px solid #0c4283;
+                        display: block;
+                        background: #0c4283;
+                        color: #fff;
+                        text-decoration: none;
+                        text-align: center;
+                        margin-bottom: 20px;
+                        padding: 5px 10px 0 0;
+                        font-size: 14px;
+                        border-radius: 5px;
+                    }
+                }
+                button {
+                    @include btntheme($color1, $w, $color1);
+                    margin: 10px 0;
+                    width: 100%;
+                    border-radius: 0px;
+                    &:hover {
+                        @include btntheme($w, $color1, $color1);
+                        margin: 10px 0;
+                        width: 100%;
+                        border-radius: 0px;
+                    }
+                }
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                    display: none;
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+                input[type=number] {
+                    -moz-appearance: textfield;
+                }
+                .form-group {
+                    &.otp-box {
+                        input {
+                            padding-right: 80px;
+                        }
+                        .re-send-otp {
+                            color: $b;
+                            position: absolute;
+                            font-size: 12px;
+                            right: 0;
+                            top: 12px;
+                        }
+                    }
+                    margin-bottom: 20px;
+                    position: relative;
+                    .toggle-password {
+                        position: absolute;
+                        right: 3px;
+                        top: 12px;
+                        color: $color1;
+                    }
+                    textarea,
+                    input {
+                        height: 40px;
+                        border-bottom: 1px solid #000;
+                        border-top: 0;
+                        border-left: 0;
+                        font-size: 15px;
+                        color: #000;
+                        border-right: 0;
+                        border-radius: 0;
+                        padding: 0;
+                        &::placeholder {
+                            color: #000;
+                            opacity: .5;
+                        }
+                        &:focus {
+                            outline: unset !important;
+                            border: unset !important;
+                            border-bottom: 1px solid $color1 !important;
+                        }
+                    }
+                }
+                .Forgot-Password {
+                    margin: 15px 0 10px;
+                    a {
+                        float: right;
+                        transition: .3s;
+                        font-size: 15px;
+                        color: $color1;
+                        &:hover {
+                            color: #000;
+                            transition: .3s;
+                        }
+                    }
+                }
+            }
+        }
+    }
