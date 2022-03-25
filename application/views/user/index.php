@@ -182,20 +182,75 @@
                     </li>
                 </ul>
                 <div class="tab-content bike-catagory-list" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-new-bikes" role="tabpanel" aria-labelledby="pills-new-bikes-tab">
+				
+				
+				<div class="tab-pane fade show active" id="pills-new-bikes" role="tabpanel" aria-labelledby="pills-new-bikes-tab">
                         <div class="d-flex row">
                             <div class="nav flex-column nav-pills col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="v-pills-new-bikes-avenger-220-tab" data-toggle="pill" href="#v-pills-new-bikes-avenger-220" role="tab" aria-controls="v-pills-new-bikes-avenger-220" aria-selected="true">Avenger 220 span</a>
-                                <a class="nav-link" id="v-pills-new-bikes-profile-tab" data-toggle="pill" href="#v-pills-new-bikes-profile" role="tab" aria-controls="v-pills-new-bikes-profile" aria-selected="false">Bajaj Pulsar 220</a>
-                                <a class="nav-link" id="v-pills-new-bikes-messages-tab" data-toggle="pill" href="#v-pills-new-bikes-messages" role="tab" aria-controls="v-pills-new-bikes-messages" aria-selected="false">Honda Activa BS VI</a>
+                                <a class="nav-link active" id="v-pills-new-bikes-bajaj-avenger-tab" data-toggle="pill" href="#v-pills-new-bikes-bajaj-avenger" role="tab" aria-controls="v-pills-new-bikes-bajaj-avenger" aria-selected="true">Avenger</a>
+                                <a class="nav-link" id="v-pills-new-honda-shine-tab" data-toggle="pill" href="#v-pills-new-honda-shine" role="tab" aria-controls="v-pills-new-honda-shine" aria-selected="false">Shine</a>
+                                <a class="nav-link" id="v-pills-new-jupiter-tab" data-toggle="pill" href="#v-pills-new-jupiter" role="tab" aria-controls="v-pills-new-jupiter" aria-selected="false">jupiter</a>
                             </div>
                             <div class="tab-content col-10" id="v-pills-tabContent">
-                                <div class="tab-pane fade show active" id="v-pills-new-bikes-avenger-220" role="tabpanel" aria-labelledby="v-pills-new-bikes-avenger-220-tab">
+                                <div class="tab-pane fade show active" id="v-pills-new-bikes-bajaj-avenger" role="tabpanel" aria-labelledby="v-pills-new-bikes-bajaj-avenger-tab">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="description">
                                                 <div class="description-price">
-                                                    <h4>600 <span>₹/per a day</span></h4>
+                                                    <h4>600 <span>₹/per a day 000000000</span></h4>
+                                                </div>
+                                                <ul class="description-list">
+                                                    <li>
+                                                        <p><span><img src="assets\user\img\check.png" alt=""></span> Available</p>
+                                                    </li>
+                                                    <li>
+                                                        <p><span><img src="assets\user\img\check.png" alt=""></span> Refundable Security Deposit Rs 1000 Drop off time next
+                                                            day morning 9.00 AM to 9.30 AM (morning to morning 24Hrs), after
+                                                            that 2nd day will be start. Penalty on being late without information
+                                                            - first 2 Hrs- Rs 200, next 2 Hrs Rs 400, after that full day rent will
+                                                            be charged. Ride Limit - 150 KM, after that Rs 2/KM will be charged.</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <img class="w-100" src="assets\admin\images\branch\3.jpg" alt="img">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-new-honda-shine" role="tabpanel" aria-labelledby="v-pills-new-honda-shine-tab">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="description">
+                                                <div class="description-price">
+                                                    <h4>600 <span>₹/per a day 111111111</span></h4>
+                                                </div>
+                                                <ul class="description-list">
+                                                    <li>
+                                                        <p><span> <img src="assets\user\img\check.png" alt=""> </span> Available</p>
+                                                    </li>
+                                                    <li>
+                                                        <p><span> <img src="assets\user\img\check.png" alt=""> </span> Refundable Security Deposit Rs 1000 Drop off time next
+                                                            day morning 9.00 AM to 9.30 AM (morning to morning 24Hrs), after
+                                                            that 2nd day will be start. Penalty on being late without information
+                                                            - first 2 Hrs- Rs 200, next 2 Hrs Rs 400, after that full day rent will
+                                                            be charged. Ride Limit - 150 KM, after that Rs 2/KM will be charged.</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <img class="w-100" src="assets\admin\images\branch\3.jpg" alt="img">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-new-jupiter" role="tabpanel" aria-labelledby="v-pills-new-jupiter-tab">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="description">
+                                                <div class="description-price">
+                                                    <h4>600 <span>₹/per a day 2222222222222</span></h4>
                                                 </div>
                                                 <ul class="description-list">
                                                     <li>
@@ -216,77 +271,29 @@
                                         </div>
                                     </div>
 
-                                    <div class="tab-pane fade" id="v-pills-new-bikes-profile" role="tabpanel" aria-labelledby="v-pills-new-bikes-profile-tab">
-                                        <div class="row">
-                                            <div class="col-12 col-md-6">
-                                                <div class="description">
-                                                    <div class="description-price">
-                                                        <h4>600 <span>₹/per a day</span></h4>
-                                                    </div>
-                                                    <ul class="description-list">
-                                                        <li>
-                                                            <p><span> <img src="assets\user\img\check.png" alt=""> </span> Available</p>
-                                                        </li>
-                                                        <li>
-                                                            <p><span> <img src="assets\user\img\check.png" alt=""> </span> Refundable Security Deposit Rs 1000 Drop off time next
-                                                                day morning 9.00 AM to 9.30 AM (morning to morning 24Hrs), after
-                                                                that 2nd day will be start. Penalty on being late without information
-                                                                - first 2 Hrs- Rs 200, next 2 Hrs Rs 400, after that full day rent will
-                                                                be charged. Ride Limit - 150 KM, after that Rs 2/KM will be charged.</p>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <img class="w-100" src="assets\admin\images\branch\3.jpg" alt="img">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="tab-pane fade" id="v-pills-new-bikes-messages" role="tabpanel" aria-labelledby="v-pills-new-bikes-messages-tab">
-                                        <div class="row">
-                                            <div class="col-12 col-md-6">
-                                                <div class="description">
-                                                    <div class="description-price">
-                                                        <h4>600 <span>₹/per a day</span></h4>
-                                                    </div>
-                                                    <ul class="description-list">
-                                                        <li>
-                                                            <p><span><img src="assets\user\img\check.png" alt=""></span> Available</p>
-                                                        </li>
-                                                        <li>
-                                                            <p><span><img src="assets\user\img\check.png" alt=""></span> Refundable Security Deposit Rs 1000 Drop off time next
-                                                                day morning 9.00 AM to 9.30 AM (morning to morning 24Hrs), after
-                                                                that 2nd day will be start. Penalty on being late without information
-                                                                - first 2 Hrs- Rs 200, next 2 Hrs Rs 400, after that full day rent will
-                                                                be charged. Ride Limit - 150 KM, after that Rs 2/KM will be charged.</p>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <img class="w-100" src="assets\admin\images\branch\3.jpg" alt="img">
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
+				
+				
+				
+                    
                     <div class="tab-pane fade" id="pills-light-weight-bikes" role="tabpanel" aria-labelledby="pills-light-weight-bikes-tab">
                         <div class="d-flex row">
                             <div class="nav flex-column nav-pills col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="v-pills-new-bikes-avenger-220-tab" data-toggle="pill" href="#v-pills-new-bikes-avenger-220" role="tab" aria-controls="v-pills-new-bikes-avenger-220" aria-selected="true">Bajaj Pulsur 150</a>
-                                <a class="nav-link" id="v-pills-new-bikes-profile-tab" data-toggle="pill" href="#v-pills-new-bikes-profile" role="tab" aria-controls="v-pills-new-bikes-profile" aria-selected="false">Honda Activa</a>
-                                <a class="nav-link" id="v-pills-new-bikes-messages-tab" data-toggle="pill" href="#v-pills-new-bikes-messages" role="tab" aria-controls="v-pills-new-bikes-messages" aria-selected="false">Hero Splendor PRO</a>
+                                <a class="nav-link active" id="v-pills-new-bikes-bajaj-150-tab" data-toggle="pill" href="#v-pills-new-bikes-bajaj-150" role="tab" aria-controls="v-pills-new-bikes-bajaj-150" aria-selected="true">Bajaj Pulsur 150</a>
+                                <a class="nav-link" id="v-pills-new-honda-activa-tab" data-toggle="pill" href="#v-pills-new-honda-activa" role="tab" aria-controls="v-pills-new-honda-activa" aria-selected="false">Honda Activa</a>
+                                <a class="nav-link" id="v-pills-new-hero-pro-tab" data-toggle="pill" href="#v-pills-new-hero-pro" role="tab" aria-controls="v-pills-new-hero-pro" aria-selected="false">Hero Splendor PRO</a>
                             </div>
                             <div class="tab-content col-10" id="v-pills-tabContent">
-                                <div class="tab-pane fade show active" id="v-pills-new-bikes-avenger-220" role="tabpanel" aria-labelledby="v-pills-new-bikes-avenger-220-tab">
+                                <div class="tab-pane fade show active" id="v-pills-new-bikes-bajaj-150" role="tabpanel" aria-labelledby="v-pills-new-bikes-bajaj-150-tab">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="description">
                                                 <div class="description-price">
-                                                    <h4>600 <span>₹/per a day</span></h4>
+                                                    <h4>600 <span>₹/per a day5555555</span></h4>
                                                 </div>
                                                 <ul class="description-list">
                                                     <li>
@@ -307,12 +314,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="v-pills-new-bikes-profile" role="tabpanel" aria-labelledby="v-pills-new-bikes-profile-tab">
+                                <div class="tab-pane fade" id="v-pills-new-honda-activa" role="tabpanel" aria-labelledby="v-pills-new-bikes-honda-activa">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="description">
                                                 <div class="description-price">
-                                                    <h4>600 <span>₹/per a day</span></h4>
+                                                    <h4>600 <span>₹/per a day ggggggggggg</span></h4>
                                                 </div>
                                                 <ul class="description-list">
                                                     <li>
@@ -334,12 +341,12 @@
                                     </div>
 
                                 </div>
-                                <div class="tab-pane fade" id="v-pills-new-bikes-messages" role="tabpanel" aria-labelledby="v-pills-new-bikes-messages-tab">
+                                <div class="tab-pane fade" id="v-pills-new-hero-pro" role="tabpanel" aria-labelledby="v-pills-new-her-tab">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="description">
                                                 <div class="description-price">
-                                                    <h4>600 <span>₹/per a day</span></h4>
+                                                    <h4>600 <span>₹/per a day kkkkkkkkkkkkkkkkkkkkkkk</span></h4>
                                                 </div>
                                                 <ul class="description-list">
                                                     <li>
@@ -356,7 +363,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
-                                            <img class="w-100" src="assets\admin\images\branch\3.jpg" alt="img">
+                                            <img class="w-100" src="http://snaprides.co.in/sandy/assets/admin/images/branch/3.jpg" alt="img">
                                         </div>
                                     </div>
 
@@ -365,13 +372,16 @@
                         </div>
 
                     </div>
-                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-
+					
+					
+					
+					
+					<div class="tab-pane fade" id="pills-heavy-bikes" role="tabpanel" aria-labelledby="pills-heavy-bikes-tab">
                         <div class="d-flex row">
                             <div class="nav flex-column nav-pills col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link active" id="v-pills-new-bikes-avenger-220-tab" data-toggle="pill" href="#v-pills-new-bikes-avenger-220" role="tab" aria-controls="v-pills-new-bikes-avenger-220" aria-selected="true">Avenger 220 span</a>
-                                <a class="nav-link" id="v-pills-new-bikes-profile-tab" data-toggle="pill" href="#v-pills-new-bikes-profile" role="tab" aria-controls="v-pills-new-bikes-profile" aria-selected="false">Profile</a>
-                                <a class="nav-link" id="v-pills-new-bikes-messages-tab" data-toggle="pill" href="#v-pills-new-bikes-messages" role="tab" aria-controls="v-pills-new-bikes-messages" aria-selected="false">Messages</a>
+                                <a class="nav-link active" id="v-pills-new-bikes-avenger-220-tab" data-toggle="pill" href="#v-pills-new-bikes-avenger-220" role="tab" aria-controls="v-pills-new-bikes-avenger-220" aria-selected="true">Bajaj Pulsur 150 777</a>
+                                <a class="nav-link" id="v-pills-new-bikes-profile-tab" data-toggle="pill" href="#v-pills-new-bikes-profile" role="tab" aria-controls="v-pills-new-bikes-profile" aria-selected="false">Honda Activa 8888</a>
+                                <a class="nav-link" id="v-pills-new-bikes-messages-tab" data-toggle="pill" href="#v-pills-new-bikes-messages" role="tab" aria-controls="v-pills-new-bikes-messages" aria-selected="false">Hero Splendor PRO 2222</a>
                             </div>
                             <div class="tab-content col-10" id="v-pills-tabContent">
                                 <div class="tab-pane fade show active" id="v-pills-new-bikes-avenger-220" role="tabpanel" aria-labelledby="v-pills-new-bikes-avenger-220-tab">
@@ -379,7 +389,7 @@
                                         <div class="col-12 col-md-6">
                                             <div class="description">
                                                 <div class="description-price">
-                                                    <h4>600 <span>₹/per a day</span></h4>
+                                                    <h4>600 <span>₹/per a day ))))))))</span></h4>
                                                 </div>
                                                 <ul class="description-list">
                                                     <li>
@@ -396,7 +406,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
-                                            <img class="w-100" src="assets\admin\images\branch\3.jpg" alt="img">
+                                            <img class="w-100" src="http://snaprides.co.in/sandy/assets/admin/images/branch/3.jpg" alt="img">
                                         </div>
                                     </div>
                                 </div>
@@ -405,7 +415,7 @@
                                         <div class="col-12 col-md-6">
                                             <div class="description">
                                                 <div class="description-price">
-                                                    <h4>600 <span>₹/per a day</span></h4>
+                                                    <h4>600 <span>₹/per a day !!!!!!!!!!!!</span></h4>
                                                 </div>
                                                 <ul class="description-list">
                                                     <li>
@@ -432,7 +442,7 @@
                                         <div class="col-12 col-md-6">
                                             <div class="description">
                                                 <div class="description-price">
-                                                    <h4>600 <span>₹/per a day</span></h4>
+                                                    <h4>600 <span>₹/per a day ########</span></h4>
                                                 </div>
                                                 <ul class="description-list">
                                                     <li>
@@ -449,31 +459,22 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
-                                            <div class="description">
-                                                <div class="description-price">
-                                                    <h4>600 <span>₹/per a day</span></h4>
-                                                </div>
-                                                <ul class="description-list">
-                                                    <li>
-                                                        <p><span><img src="assets\user\img\check.png" alt=""></span> Available</p>
-                                                    </li>
-                                                    <li>
-                                                        <p><span><img src="assets\user\img\check.png" alt=""></span> Refundable Security Deposit Rs 1000 Drop off time next
-                                                            day morning 9.00 AM to 9.30 AM (morning to morning 24Hrs), after
-                                                            that 2nd day will be start. Penalty on being late without information
-                                                            - first 2 Hrs- Rs 200, next 2 Hrs Rs 400, after that full day rent will
-                                                            be charged. Ride Limit - 150 KM, after that Rs 2/KM will be charged.</p>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            <img class="w-100" src="assets\admin\images\branch\3.jpg" alt="img">
                                         </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
+
                     </div>
+					
+					
+					
+                   
                 </div>
+            </div>
+            
             </div>
         </div>
             <section class="index-section-4 mt-5">
