@@ -22,16 +22,19 @@ class Api extends MY_Controller
 			$output = array(
 				"status" => Failure,
 				"message" => 'bad request',
-				'data' => array(),
 			);
 		} else {
-			$this->form_validation->set_rules('contact_no', 'Contact Number', 'required|is_unique[user.contact_no]');
-			if ($this->form_validation->run() == FALSE) {
-				$ddd = current(array_values($this->form_validation->error_array()));
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+
+			if (!array_key_exists("contact_no", $postData)) {
+				$this->form_validation->set_rules('contact_no', 'Contact Number', 'required');
+			}
+			$contact_no = isset($postData['contact_no']) ? $postData['contact_no'] : '';
+			if ($this->checkAlreadyContact($contact_no)) {
 				$output = array(
-					'status' => Failure,
-					'message' => $ddd,
-					'data' => array(),
+					'status' => 400,
+					'message' => 'Contact Number Already Exist.',
 				);
 				echo json_encode($output);
 				die;
@@ -52,7 +55,6 @@ class Api extends MY_Controller
 				$output = array(
 					'status' => Failure,
 					'message' => 'Invalid mobile number.',
-					'data' => array(),
 				);
 				echo json_encode($output);
 				die;
@@ -68,29 +70,33 @@ class Api extends MY_Controller
 		$method = $this->input->server('REQUEST_METHOD');
 		if ($method != 'POST') {
 			$output = array(
-				"status" => Failure,
-				"message" => 'bad request',
-				'data' => array(),
+				"status" => Failure
 			);
 		} else {
-			$this->form_validation->set_rules('username', 'Username', 'required');
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+			if (!array_key_exists("username", $postData)) {
+				$this->form_validation->set_rules('username', 'Username', 'required');
+			}
+			$this->form_validation->set_rules('test', 'TestValidation', 'required', array('required' => 'validationErrorMessage'));
 			if ($this->form_validation->run() == FALSE) {
 				$ddd = current(array_values($this->form_validation->error_array()));
 				$output = array(
-					'status' => Failure,
+					'status' => 400,
 					'message' => $ddd,
-					'data' => array(),
 				);
-				echo json_encode($output);
-				die;
+				if ($ddd != 'validationErrorMessage') {
+					echo json_encode($output);
+					die;
+				}
 			}
-			extract($_POST);
+			$username = $postData['username'];
 			if ($this->isValidEmail($username)) {
 				$userData = $this->db->where('email', $username)->get('user')->row();
 			} else {
 				$userData = $this->db->where('contact_no', $username)->get('user')->row();
 			}
-			if ($this->checkUserId($userData->id)) {
+			if (!empty($userData)) {
 				$otp = rand(1000, 9999);
 				$message = $otp . " - This is one time password for forget password your Bike Booking account.";
 				$mobileNo = $userData->contact_no;
@@ -99,20 +105,14 @@ class Api extends MY_Controller
 				$subject = 'Bike Booking: Otp Email';
 				$body = $message;
 				$from = 'dushyant@gmail.com';
-
-
-				if ($this->isValidEmail($username)) {
-					parent::_sendMail($from, $to, $subject, $body);
-				} else {
-					$result = parent::_sendOtp($message, $mobileNo);
-				}
-
-
-
-
-				if ($result == 1) {
-					$userDAta = $this->db->where('contact_no', $contact_no)->get('user')->row();
-					$data = ['user_id' => $userDAta->id, 'otp' => $otp];
+				// if ($this->isValidEmail($username)) {
+				// parent::_sendMail($from, $to, $subject, $body);
+				// } else {
+				// $result = parent::_sendOtp($message, $mobileNo);
+				// }
+				if (true) {
+					$userDAta = $this->db->where('contact_no', $mobileNo->contact_no)->get('user')->row();
+					$data = ['user_id' => $userData->id, 'otp' => $otp];
 					$output = array(
 						"status" => 200,
 						"message" => 'Otp sent successfully.',
@@ -123,8 +123,7 @@ class Api extends MY_Controller
 				} else {
 					$output = array(
 						'status' => Failure,
-						'message' => 'Invalid Username.',
-						'data' => array(),
+						'message' => 'Invalid Username.'
 					);
 					echo json_encode($output);
 					die;
@@ -132,8 +131,7 @@ class Api extends MY_Controller
 			} else {
 				$output = array(
 					'status' => Failure,
-					'message' => 'Invalid Username',
-					'data' => array(),
+					'message' => 'Invalid Username'
 				);
 				echo json_encode($output);
 				die;
@@ -153,35 +151,39 @@ class Api extends MY_Controller
 		if ($method != 'POST') {
 			$output = array(
 				"status" => Failure,
-				"message" => 'bad request',
-				'data' => array(),
+				"message" => 'bad request'
 			);
 		} else {
-
-			$this->form_validation->set_rules('username', 'Username', 'required');
-			$this->form_validation->set_rules('password', 'Pasword', 'required');
-			if ($this->form_validation->run() == FALSE) {
-				$ddd = current(array_values($this->form_validation->error_array()));
-				$output = array(
-					'status' => Failure,
-					'message' => $ddd,
-					'data' => array(),
-				);
-				echo json_encode($output);
-				die;
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+			if (!array_key_exists("username", $postData)) {
+				$this->form_validation->set_rules('username', 'Username', 'required');
 			}
-
-
-			$username = isset($_POST['username']) ? $_POST['username'] : '';
-			$password = isset($_POST['password']) ?  md5($_POST['password']) : '';
+			if (!array_key_exists("password", $postData)) {
+				$this->form_validation->set_rules('password', 'password', 'required');
+			}
+			$this->form_validation->set_rules('test', 'TestValidation', 'required', array('required' => 'validationErrorMessage'));
+			if ($this->form_validation->run() == FALSE) {
+				$ddd = current(array_values($this->form_validation->error_array())); //die;
+				$output = array(
+					'status' => 400,
+					'message' => $ddd,
+				);
+				if ($ddd != 'validationErrorMessage') {
+					echo json_encode($output);
+					die;
+				}
+			}
+			$username = isset($postData['username']) ? $postData['username'] : '';
+			$password = isset($postData['password']) ?  md5($postData['password']) : '';
 			if ($this->isValidEmail($username)) {
 				$this->db->where('email', $username);
 			} else {
 				$this->db->where('contact_no', $username);
 			}
+			$this->db->select('id,name,email,contact_no,address,otp_verify');
 			$this->db->where('password', $password);
 			$check_exists = $this->db->get('user');
-			// $check_exists = $this->db->where('email', $username)->where('password', $password)->get('user')->num_rows();
 			if ($check_exists->num_rows() > 0) {
 				$data = $check_exists->row_array();
 				$output = array(
@@ -191,16 +193,14 @@ class Api extends MY_Controller
 				);
 			} else {
 				$output = array(
-					"status" => 401,
+					"status" => 400,
 					"message" => 'Wrong username or password.',
-					'data' => array()
 				);
 			}
 		}
 		echo json_encode($output);
 		die;
 	}
-
 
 	public function updatePassword()
 	{
@@ -212,48 +212,53 @@ class Api extends MY_Controller
 				'data' => array(),
 			);
 		} else {
-			$this->form_validation->set_rules('user_id', 'User Id', 'required');
-			$this->form_validation->set_rules('password', 'Pasword', 'required');
+
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+			if (!array_key_exists("user_id", $postData)) {
+				$this->form_validation->set_rules('user_id', 'User Id', 'required');
+			}
+			if (!array_key_exists("password", $postData)) {
+				$this->form_validation->set_rules('password', 'password', 'required');
+			}
+			$this->form_validation->set_rules('test', 'TestValidation', 'required', array('required' => 'validationErrorMessage'));
 			if ($this->form_validation->run() == FALSE) {
 				$ddd = current(array_values($this->form_validation->error_array()));
 				$output = array(
-					'status' => Failure,
+					'status' => 400,
 					'message' => $ddd,
-					'data' => array(),
 				);
-				echo json_encode($output);
-				die;
+				if ($ddd != 'validationErrorMessage') {
+					echo json_encode($output);
+					die;
+				}
 			}
-			extract($_POST);
+
+			$user_id  = $postData['user_id'];
+			$password = $postData['password'];
 			if ($this->checkUserId($user_id)) {
 				$update = $this->db->where('id', $user_id)->update('user', ['password' => md5($password)]);
 				if ($update) {
 					$output = array(
 						"status" => 200,
 						"message" => 'Password Update successfully.',
-						'data' => []
 					);
 				} else {
 					$output = array(
-						"status" => 401,
+						"status" => 400,
 						"message" => 'Some error occured.',
-						'data' => array()
 					);
 				}
 			} else {
 				$output = array(
-					"status" => 401,
+					"status" => 400,
 					"message" => 'wrong User Id.',
-					'data' => array()
 				);
 			}
 		}
 		echo json_encode($output);
 		die;
 	}
-
-
-
 
 	public function uploadRideDocument()
 	{
@@ -337,14 +342,14 @@ class Api extends MY_Controller
 					);
 				} else {
 					$output = array(
-						"status" => 401,
+						"status" => 400,
 						"message" => 'Some error occured.',
 						'data' => array()
 					);
 				}
 			} else {
 				$output = array(
-					"status" => 401,
+					"status" => 400,
 					"message" => 'wrong User Id.',
 					'data' => array()
 				);
@@ -366,63 +371,65 @@ class Api extends MY_Controller
 				'data' => array(),
 			);
 		} else {
-			$this->form_validation->set_rules('user_id', 'User Id', 'required');
-			$this->form_validation->set_rules('new_password', 'New Pasword', 'required');
-			$this->form_validation->set_rules('old_password', 'Old Pasword', 'required');
-			if ($this->form_validation->run() == FALSE) {
-				$ddd = current(array_values($this->form_validation->error_array()));
-				$output = array(
-					'status' => Failure,
-					'message' => $ddd,
-					'data' => array(),
-				);
-				echo json_encode($output);
-				die;
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+			if (!array_key_exists("user_id", $postData)) {
+				$this->form_validation->set_rules('user_id', 'User Id', 'required');
 			}
-			extract($_POST);
+			if (!array_key_exists("new_password", $postData)) {
+				$this->form_validation->set_rules('new_password', 'New Pasword', 'required');
+			}
+			if (!array_key_exists("old_password", $postData)) {
+				$this->form_validation->set_rules('old_password', 'Old Pasword', 'required');
+			}
+			$this->form_validation->set_rules('test', 'TestValidation', 'required', array('required' => 'validationErrorMessage'));
+			if ($this->form_validation->run() == FALSE) {
+				$ddd = current(array_values($this->form_validation->error_array())); //die;
+				$output = array(
+					'status' => 400,
+					'message' => $ddd,
+				);
+				if ($ddd != 'validationErrorMessage') {
+					echo json_encode($output);
+					die;
+				}
+			}
+			$user_id 	  = isset($postData['user_id']) ? $postData['user_id'] : 0;
+			$old_password = isset($postData['old_password']) ? $postData['old_password'] : '';
+			$new_password = isset($postData['new_password']) ? $postData['new_password'] : '';
 			if ($this->checkUserId($user_id)) {
 				$userData = $this->getUserData($user_id);
-				// print_r($userData);die;
-				// echo $userData->id;die;
 				if ($userData->password != md5($old_password)) {
-
 					$output = array(
-						"status" => 401,
-						"message" => 'Old Password Not match.',
-						'data' => array()
+						"status" => 400,
+						"message" => 'Old Password Not match.'
 					);
 					echo json_encode($output);
 					die;
 				}
 				$data = array('password' => md5($new_password));
 				$update = $this->db->where('id', $user_id)->update('user', $data);
-
 				if ($update) {
 					$output = array(
 						"status" => 200,
-						"message" => 'Password Update successfully.',
-						'data' => []
+						"message" => 'Password Update successfully.'
 					);
 				} else {
 					$output = array(
-						"status" => 401,
-						"message" => 'Some error occured.',
-						'data' => array()
+						"status" => 400,
+						"message" => 'Some error occured.'
 					);
 				}
 			} else {
 				$output = array(
-					"status" => 401,
-					"message" => 'wrong User Id.',
-					'data' => array()
+					"status" => 400,
+					"message" => 'wrong User Id.'
 				);
 			}
 		}
 		echo json_encode($output);
 		die;
 	}
-
-
 
 	function checkAlreadyEmail($email)
 	{
@@ -434,9 +441,9 @@ class Api extends MY_Controller
 		}
 	}
 
-	private function checkAlreadyContact($email)
+	function checkAlreadyContact($mobileNo)
 	{
-		$check_exists = $this->db->where('contact_no', $email)->get('user')->num_rows();
+		$check_exists = $this->db->where('contact_no', $mobileNo)->get('user')->num_rows();
 		if ($check_exists > 0) {
 			return true;
 		} else {
@@ -467,61 +474,90 @@ class Api extends MY_Controller
 
 	public function signUp()
 	{
+
+
+
 		$method = $this->input->server('REQUEST_METHOD');
 		if ($method != 'POST') {
 			$output = array(
-				"status" => Failure,
-				"message" => 'bad request',
-				'data' => array(),
+				"status" => 400,
+				"message" => 'bad request'
 			);
 		} else {
-			$this->form_validation->set_rules('name', 'name', 'required');
-			$this->form_validation->set_rules('email', 'Email', 'required|is_unique[user.email]');
-			$this->form_validation->set_rules('contact_no', 'Contact Number', 'required|is_unique[user.contact_no]');
-			$this->form_validation->set_rules('password', 'Password', 'required');
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+			if (!array_key_exists("name", $postData)) {
+				$this->form_validation->set_rules('name', 'name', 'required');
+			}
+			if (!array_key_exists("email", $postData)) {
+				$this->form_validation->set_rules('email', 'Email', 'required');
+			}
+			if (!array_key_exists("contact_no", $postData)) {
+				$this->form_validation->set_rules('contact_no', 'Contact Number', 'required');
+			}
+			if (!array_key_exists("password", $postData)) {
+				$this->form_validation->set_rules('password', 'password', 'required');
+			}
+			$this->form_validation->set_rules('test', 'TestValidation', 'required', array('required' => 'validationErrorMessage'));
+
 			if ($this->form_validation->run() == FALSE) {
 				$ddd = current(array_values($this->form_validation->error_array())); //die;
 				$output = array(
-					'status' => Failure,
+					'status' => 400,
 					'message' => $ddd,
-					'data' => array(),
+				);
+				if ($ddd != 'validationErrorMessage') {
+					echo json_encode($output);
+					die;
+				}
+			}
+			$name = isset($postData['name']) ? $postData['name'] : '';
+			// echo $name;die;
+			$email = isset($postData['email']) ?  $postData['email'] : '';
+			$password = isset($postData['password']) ? md5($postData['password']) : '';
+			$contact_no = isset($postData['contact_no']) ? $postData['contact_no'] : '';
+			if ($this->checkAlreadyContact($contact_no)) {
+				$output = array(
+					'status' => 400,
+					'message' => 'Contact Number Already Exist.',
 				);
 				echo json_encode($output);
 				die;
 			}
-			$name = isset($_POST['name']) ? $_POST['name'] : '';
-			$email = isset($_POST['email']) ?  $_POST['email'] : '';
-			$password = isset($_POST['password']) ? md5($_POST['password']) : '';
-			$contact_no = isset($_POST['contact_no']) ? $_POST['contact_no'] : '';
 			if ($this->checkAlreadyEmail($email)) {
 				$data = array(
 					'name' => $name,
 					'email' => $email,
 					'password' => $password,
 					'contact_no' => $contact_no,
+					'otp_verify' => 1,
 					'created_at' => date('Y-m-d h:i:s'),
 					'updated_at' => date('Y-m-d h:i:s')
 				);
 				$this->db->insert('user', $data);
 				$insert_id = $this->db->insert_id();
 				if ($insert_id != '') {
+
+					$this->db->where('id', $insert_id);
+					$this->db->select('id,name,email,contact_no,address,otp_verify');
+					$userDAta = $this->db->get('user')->row();
 					$output = array(
-						"status" => 200,
+						"status"  => 200,
 						"message" => 'User Register Successfully',
-						'data' => $data,
+						'data'	  => $userDAta
 					);
 				} else {
 					$output = array(
-						"status" => 401,
-						"message" => 'User Register UnSuccessfully',
-						'data' => array(),
+						"status" => 400,
+						"message" => 'Some Error occured.',
+
 					);
 				}
 			} else {
 				$output = array(
-					"status" => 401,
+					"status" => 400,
 					"message" => 'E-mail Already Exist.',
-					'data' => array(),
+
 				);
 			}
 		}
@@ -597,14 +633,14 @@ class Api extends MY_Controller
 					);
 				} else {
 					$output = array(
-						"status" => 401,
+						"status" => 400,
 						"message" => 'some error occured',
 						'data' => array(),
 					);
 				}
 			} else {
 				$output = array(
-					"status" => 401,
+					"status" => 400,
 					"message" => 'User id not Exist.',
 					'data' => array(),
 				);
@@ -635,9 +671,151 @@ class Api extends MY_Controller
 				);
 			} else {
 				$output = array(
-					"status" => 401,
+					"status" => 400,
 					"message" => 'Invaild Data User',
 					'data' => array(),
+				);
+			}
+		}
+		echo json_encode($output);
+		die;
+	}
+
+
+	public function getCity()
+	{
+		$method = $this->input->server('REQUEST_METHOD');
+		if ($method != 'GET') {
+			$output = array(
+				"status" => Failure,
+				"message" => 'bad request',
+				'data' => array(),
+			);
+		} else {
+
+			$userDetails = $this->db->get('city')->result();
+			if (!empty($userDetails)) {
+				$output = array(
+					"status" => 200,
+					"message" => 'User Details',
+					'data' => $userDetails,
+				);
+			} else {
+				$output = array(
+					"status" => 400,
+					"message" => 'Sorry! city not found',
+				);
+			}
+		}
+		echo json_encode($output);
+		die;
+	}
+
+	public function getAllBikes()
+	{
+
+		$method = $this->input->server('REQUEST_METHOD');
+		if ($method != 'GET') {
+			$output = array(
+				"status" => Failure,
+				"message" => 'bad request',
+				'data' => array(),
+			);
+		} else {
+
+			$data = $this->db
+				->from('branch as b,model_at_branch as mab ')
+				->select('m.id as model_id,m.model_name,mab.hourly_rate,mab.free_km,mf.manufacturer_name')
+				->join('model as m', 'm.id = mab.model_id')
+				->join('manufacturer mf', 'mf.id = m.manufacturer_id')
+				->group_by('model_id')
+				->get('branch')->result();
+			if (!empty($data)) {
+				$output = array(
+					"status" => 200,
+					"message" => 'Bike get successfully.',
+					'data' => $data,
+				);
+			} else {
+				$output = array(
+					"status" => 400,
+					"message" => 'Sorry! bike not found',
+				);
+			}
+		}
+		echo json_encode($output);
+		die;
+	}
+
+
+	public function searchBikeByCity()
+	{
+		$method = $this->input->server('REQUEST_METHOD');
+		if ($method != 'POST') {
+			$output = array(
+				"status" => Failure,
+				"message" => 'bad request',
+				'data' => array(),
+			);
+		} else {
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+			$start_date  = $postData['start_date'];
+			$end_date    = $postData['end_date'];
+			$city_id     = $postData['city_id'];
+			$data = $this->db
+				->from('branch as b,model_at_branch as mab ')
+				->select('m.id as model_id,m.model_name,mab.hourly_rate,mab.free_km,mf.manufacturer_name')
+				->join('model as m', 'm.id = mab.model_id')
+				->join('manufacturer mf', 'mf.id = m.manufacturer_id')
+				// ->where('mab.city_id', $city_id)
+				->group_by('model_id')
+				->get('branch')->result();
+			if (!empty($data)) {
+				// print_r($data);die;
+				$cnt = 1;
+				foreach ($data as $key => $value) {
+					// echo $value->model_id;die;
+					// if($cnt == 2){
+					// 	print_r($value);die;
+					// }else{
+						
+					// }
+					$checkTotalBikeInCity = $this->db
+						->select('available_qty')
+						->where(['city_id' => $city_id, 'model_id' => $value->model_id])
+						->get('model_at_branch')->row();
+					// $total = $this->db->where('model_id', $value->model_id)->where('city_id', $city_id)->count_all();
+
+					$totalOrderThisModel = $this->db->where('from_date >=', $start_date)->where('to_date <=', $end_date)->where('model_id', $value->model_id)->where('city_id', $city_id)->get('booking_order')->num_rows();
+// print_r($totalOrderThisModel);die;
+// 					if($cnt == 2){
+// 						echo 'dfd';die;
+// 					}else{
+						
+// 					}
+					// print_r($totalOrderThisModel);die;
+					// $ddd[$key] = $value;
+					// print_r($checkTotalBikeInCity);die;
+					if(isset($checkTotalBikeInCity->available_qty) && is_int($totalOrderThisModel))
+					$value->available_qty = (int) $checkTotalBikeInCity->available_qty - (int) $totalOrderThisModel;
+					else
+					$value->available_qty = 0;
+					
+					$cnt++;
+				}
+
+				// print_r($data);die;
+
+				$output = array(
+					"status" => 200,
+					"message" => 'Bike get successfully.',
+					'data' => $data,
+				);
+			} else {
+				$output = array(
+					"status" => 400,
+					"message" => 'Sorry! bike not found',
 				);
 			}
 		}

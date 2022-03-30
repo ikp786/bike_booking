@@ -107,5 +107,8 @@ $route['api/update-profile'] = 'Api/updateProfile';
 $route['api/profile'] = 'Api/profile';
 $route['api/profile/(:any)'] = 'Api/profile/$1';
 $route['api/upload-ride-document'] = 'Api/uploadRideDocument';
+$route['api/get-city'] = 'Api/getCity';
+$route['api/get-all-bikes'] = 'Api/getAllBikes';
+$route['api/search-bike-by-city'] = 'Api/searchBikeByCity';
 
 $route['translate_uri_dashes'] = FALSE;
