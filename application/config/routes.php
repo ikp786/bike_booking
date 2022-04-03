@@ -110,5 +110,9 @@ $route['api/upload-ride-document'] = 'Api/uploadRideDocument';
 $route['api/get-city'] = 'Api/getCity';
 $route['api/get-all-bikes'] = 'Api/getAllBikes';
 $route['api/search-bike-by-city'] = 'Api/searchBikeByCity';
+$route['api/calculate-price'] = 'Api/priceCalculation';
+// $route['api/profile/(:any)'] = 'Api/profile/$1';
+$route['api/booking-history/(:any)'] = 'Api/bookingHistory/$1';
+$route['api/get-booking-detail/(:any)'] = 'Api/getBookingDetail/$1';
 
 $route['translate_uri_dashes'] = FALSE;

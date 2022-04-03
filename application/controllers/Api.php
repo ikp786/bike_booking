@@ -775,37 +775,18 @@ class Api extends MY_Controller
 				// print_r($data);die;
 				$cnt = 1;
 				foreach ($data as $key => $value) {
-					// echo $value->model_id;die;
-					// if($cnt == 2){
-					// 	print_r($value);die;
-					// }else{
-						
-					// }
 					$checkTotalBikeInCity = $this->db
-						->select('available_qty')
+						->select_sum('available_qty')
 						->where(['city_id' => $city_id, 'model_id' => $value->model_id])
 						->get('model_at_branch')->row();
-					// $total = $this->db->where('model_id', $value->model_id)->where('city_id', $city_id)->count_all();
-
 					$totalOrderThisModel = $this->db->where('from_date >=', $start_date)->where('to_date <=', $end_date)->where('model_id', $value->model_id)->where('city_id', $city_id)->get('booking_order')->num_rows();
-// print_r($totalOrderThisModel);die;
-// 					if($cnt == 2){
-// 						echo 'dfd';die;
-// 					}else{
-						
-// 					}
-					// print_r($totalOrderThisModel);die;
-					// $ddd[$key] = $value;
 					// print_r($checkTotalBikeInCity);die;
-					if(isset($checkTotalBikeInCity->available_qty) && is_int($totalOrderThisModel))
-					$value->available_qty = (int) $checkTotalBikeInCity->available_qty - (int) $totalOrderThisModel;
+					if (isset($checkTotalBikeInCity->available_qty) && is_int($totalOrderThisModel))
+						$value->available_qty = (int) $checkTotalBikeInCity->available_qty - (int) $totalOrderThisModel;
 					else
-					$value->available_qty = 0;
-					
+						$value->available_qty = 0;
 					$cnt++;
 				}
-
-				// print_r($data);die;
 
 				$output = array(
 					"status" => 200,
@@ -821,5 +802,272 @@ class Api extends MY_Controller
 		}
 		echo json_encode($output);
 		die;
+	}
+
+
+	
+	public function bookingHistory($user_id)
+	{
+		$method = $this->input->server('REQUEST_METHOD');
+		if ($method != 'GET') {
+			$output = array(
+				"status" => Failure,
+				"message" => 'bad request',
+				'data' => array(),
+			);
+		} else {			
+			$data = $this->db
+				->from('booking_order as bo,model_at_branch as mab ')
+				->select('m.id as model_id,m.model_name,mab.hourly_rate,mab.free_km,mf.manufacturer_name,bo.total_amount,bo.from_date,bo.to_date,bo.book_status,bo.id as booking_id')
+				->join('model as m', 'm.id = mab.model_id')
+				->join('manufacturer as mf', 'mf.id = m.manufacturer_id')
+				->where('bo.user_id', $user_id)
+				->group_by('model_id')
+				->get('booking_order')->result();				
+			if (!empty($data)) {				
+				$output = array(
+					"status" => 200,
+					"message" => 'get Booking successfully.',
+					'data' => $data,
+				);
+			} else {
+				$output = array(
+					"status" => 400,
+					"message" => 'Sorry! booking not found',
+				);
+			}
+		}
+		echo json_encode($output);
+		die;
+	}
+	
+	public function getBookingDetail($booking_id)
+	{
+		$method = $this->input->server('REQUEST_METHOD');
+		if ($method != 'GET') {
+			$output = array(
+				"status" => Failure,
+				"message" => 'bad request',
+				'data' => array(),
+			);
+		} else {			
+			$data = $this->db
+				->from('booking_order as bo,model_at_branch as mab ')
+				->select('m.id as model_id,m.model_name,mab.hourly_rate,mab.free_km,mf.manufacturer_name,bo.total_amount,bo.from_date,bo.to_date,bo.book_status,bo.id as booking_id')
+				->join('model as m', 'm.id = mab.model_id')
+				->join('manufacturer as mf', 'mf.id = m.manufacturer_id')
+				->where('bo.id', $booking_id)
+				->group_by('model_id')
+				->get('booking_order')->row();				
+			if (!empty($data)) {				
+				$output = array(
+					"status" => 200,
+					"message" => 'get booking successfully.',
+					'data' => $data,
+				);
+			} else {
+				$output = array(
+					"status" => 400,
+					"message" => 'Sorry! booking not found',
+				);
+			}
+		}
+		echo json_encode($output);
+		die;
+	}
+
+	public function get_booking_duration($Interval){
+		$Difference["hours"] = $Interval->h;
+		$Difference["weeks"] = floor($Interval->d/7);
+		$Difference["days"] = $Interval->d % 7;
+		$Difference["months"] = $Interval->m;
+
+		return $Difference;
+	}
+
+	public function priceCalculation()
+	{
+		$method = $this->input->server('REQUEST_METHOD');
+		if ($method != 'POST') {
+			$output = array(
+				"status" => Failure,
+				"message" => 'bad request',
+				'data' => array(),
+			);
+		} else {
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+			$start_date  = $postData['start_date'];
+			$end_date    = $postData['end_date'];
+			$city_id     = $postData['city_id'];
+			$model_id    = $postData['model_id'];
+			$data = $this->db
+				->from('branch as b,model_at_branch as mab ')
+				->select('m.id as model_id,m.model_name,mab.hourly_rate,mab.free_km,mf.manufacturer_name')
+				->join('model as m', 'm.id = mab.model_id')
+				->join('manufacturer mf', 'mf.id = m.manufacturer_id')
+				->where('mab.model_id', $model_id)
+				->where('mab.city_id', $city_id)
+				->group_by('model_id')
+				->get('branch')->row();
+			$checkTotalBikeInCity = $this->db
+				->select_sum('available_qty')
+				->where(['city_id' => $city_id, 'model_id' => $model_id])
+				->get('model_at_branch')->row();
+
+			$totalOrderThisModel = $this->db->where('from_date >=', $start_date)->where('to_date <=', $end_date)->where('model_id', $model_id)->where('city_id', $city_id)->get('booking_order')->num_rows();
+			if (isset($checkTotalBikeInCity->available_qty) && is_int($totalOrderThisModel))
+				$available_qty = (int) $checkTotalBikeInCity->available_qty - (int) $totalOrderThisModel;
+			else
+				$available_qty = 0;
+
+				$_from_datetime = new DateTime($start_date);
+				$_to_datetime   = new DateTime($end_date);
+				$interval = $_from_datetime->diff($_to_datetime);
+				
+				$total_hours = $interval->format('%H');
+				$total_days  = $interval->format('%d');
+				$total_months= $interval->format('%m');
+				
+				$booking_duration = $this->get_booking_duration($interval);
+				
+
+			$data->available_qty = $available_qty;
+			// calculate bookin durations
+			$datediff = strtotime($end_date) - strtotime($start_date);
+			$total_day	  = round($datediff / (60 * 60 * 24)) . ' day';
+			$boobking_amount = $this->calculate_booking_amount($model_id, $city_id, $start_date, $end_date);
+			$tax 							= $boobking_amount['calculate_price']['booking_amount'] * 18 / 100;
+			$booking_arr['basic_info'] 	    = $data;
+			$booking_arr['price_calculations']['total_charges'] 	= $boobking_amount['calculate_price']['booking_amount'];
+			$booking_arr['price_calculations']['tax'] 			= $tax;
+			$booking_arr['price_calculations']['total_with_tax']  = $boobking_amount['calculate_price']['booking_amount'] + $tax;
+			$booking_arr['total_day']		= $total_day;
+			$output = array(
+				"status" => 200,
+				"message" => 'Bike get successfully.',
+				'data' => $booking_arr,
+			);
+		}
+		echo json_encode($output);
+		die;
+	}
+
+	// CHECK PROPERTY AVAILABILITY ACCORDING DATE AND TIME
+	public function check_availability($property_id, $checkin_date, $checkout_date)
+	{
+		$availability_status = True;
+		$booking_count		= Bookings::query()
+			->where(function ($q) use ($checkin_date, $checkout_date) {
+				$q->whereRaw('"' . $checkin_date . '" between `checkin_date` and `checkout_date`');
+				$q->OrwhereRaw('"' . $checkout_date . '" between `checkin_date` and `checkout_date`');
+				$q->OrWhereBetween('checkin_date', [$checkin_date, $checkout_date]);
+				$q->OrWhereBetween('checkout_date', [$checkin_date, $checkout_date]);
+			});
+		$booking_count->where('property_id', $property_id)->where('booking_status', '!=', config('constant.BOOKING_STATUS.CANCELLED'));
+		$booking_count  = $booking_count->count();
+
+		if ($booking_count > 0) {
+			$availability_status	= False;
+		}
+
+		return $availability_status;
+	}
+
+	// AMOUNT CALCULATION FOR STAY (MONTH, WEEK, DAY & HOURS)
+	public function calculate_booking_amount($model_id, $city_id, $checkin_date, $checkout_date)
+	{
+		$booking_amount	= 0;
+		$model_details 	= $this->db->where('city_id', $city_id)->where('model_id', $model_id)->get('model_at_branch')->row();
+		$working_hours 		= 24; //round(abs(strtotime($model_details->checkout_time) - strtotime($model_details->checkin_time)) / 3600, 2);
+
+		if (strtotime(date('Y-m-d', strtotime($checkin_date))) == strtotime(date('Y-m-d', strtotime($checkout_date)))) {
+			$cDate = date('Y-m-d');
+			$BookedDate_1 = date('Y-m-d', strtotime($checkin_date));
+			$BookedDate_2 = date('Y-m-d', strtotime($checkout_date));
+
+			if (($cDate == $BookedDate_1) && ($cDate == $BookedDate_2)) {
+				$hour_stay			= round(abs(strtotime($checkin_date) - strtotime(date('H:i:s', strtotime($checkout_date)))) / 3600, 2);
+			} else {
+				$hour_stay			= round(abs(strtotime(date('H:i:s', strtotime($checkout_date))) - strtotime(date('H:i:s', strtotime($checkin_date)))) / 3600, 2);
+			}
+		} else {
+			$timestamp1 = strtotime($checkin_date);
+			$timestamp2 = strtotime($checkout_date);
+			$hour_stay	= ($timestamp2 - $timestamp1) / (60 * 60);
+			// $hour_stay			= round(abs(strtotime($model_details->checkout_time) - strtotime(date('H:i:s', strtotime($checkin_date)))) / 3600, 2) + round(abs(strtotime($model_details->checkin_time) - strtotime(date('H:i:s', strtotime($checkout_date)))) / 3600, 2);
+		}
+		$diff_days 			= strtotime(date('Y-m-d', strtotime($checkout_date))) - strtotime(date('Y-m-d', strtotime($checkin_date)));
+		$days_stay 			= (abs(round($diff_days / 86400)) > 0 ? abs(round($diff_days / 86400)) - 1 : abs(round($diff_days / 86400)));
+		$total_hours_stay	= $hour_stay + ($days_stay * $working_hours);
+		$monthly_hours		= $working_hours * 30;
+		$weekly_hours		= $working_hours * 7;
+		if ($total_hours_stay >= $monthly_hours && !empty($model_details->monthly_rate)) {
+			$stay_months		= (int) ($total_hours_stay / $monthly_hours);
+			$monthly_amount		= (int) ($total_hours_stay / $monthly_hours) * $model_details->monthly_rate;
+			$booking_amount	+= $monthly_amount;
+			$remaining_hours	= $total_hours_stay - ((int) ($total_hours_stay / $monthly_hours)) * $monthly_hours;
+		}
+
+		if (!empty($model_details->weekly_rate) && $total_hours_stay >= $weekly_hours) {
+			if (isset($remaining_hours)) {
+				$stay_weeks			= (int) ($remaining_hours / $weekly_hours);
+				$weekly_amount		= (int) ($remaining_hours / $weekly_hours) * $model_details->weekly_rate;
+				$booking_amount	+= $weekly_amount;
+				$remaining_hours	= $remaining_hours - ((int) ($remaining_hours / $weekly_hours)) * $weekly_hours;
+			} else {
+				$stay_weeks			= (int) ($total_hours_stay / $weekly_hours);
+				$weekly_amount		= (int) ($total_hours_stay / $weekly_hours) * $model_details->weekly_rate;
+				$booking_amount	+= $weekly_amount;
+				$remaining_hours	= $total_hours_stay - ((int) ($total_hours_stay / $weekly_hours)) * $weekly_hours;
+			}
+		}
+
+		if (!empty($model_details->perday_rate) && $total_hours_stay >= $working_hours) {
+			if (isset($remaining_hours)) {
+				$stay_days			= (int) ($remaining_hours / $working_hours);
+				$daily_amount		= (int) ($remaining_hours / $working_hours) * $model_details->perday_rate;
+				$booking_amount	+= $daily_amount;
+				$remaining_hours	= $remaining_hours - ((int) ($remaining_hours / $working_hours)) * $working_hours;
+			} else {
+				$stay_days			= (int) ($total_hours_stay / $working_hours);
+				$daily_amount		= (int) ($total_hours_stay / $working_hours) * $model_details->perday_rate;
+				$booking_amount	+= $daily_amount;
+				$remaining_hours	= $total_hours_stay - ((int) ($total_hours_stay / $working_hours)) * $working_hours;
+			}
+		}
+
+		if (!isset($remaining_hours)) {
+
+			$stay_hours			= $total_hours_stay;
+			$hourly_amount 		= $total_hours_stay * $model_details->hourly_rate;
+			$booking_amount	+= $hourly_amount;
+		} else {
+			if ($remaining_hours > 0) {
+				$stay_hours			= $remaining_hours;
+				$hourly_amount 		= $remaining_hours * $model_details->hourly_rate;
+				$booking_amount	+= $hourly_amount;
+			}
+		}
+
+		return [
+			'property_price' => [
+				'monthly_rate' 		=> $model_details->monthly_rate,
+				'weekly_rate' 		=> $model_details->weekly_rate,
+				'perday_rate' 		=> $model_details->perday_rate,
+				'hourly_rate' 		=> $model_details->hourly_rate,
+			],
+			'calculate_price' => [
+				'stay_months' 		=> isset($stay_months) ? $stay_months : NULL,
+				'monthly_amount' 	=> isset($monthly_amount) ? $monthly_amount : NULL,
+				'stay_weeks' 		=> isset($stay_weeks) ? $stay_weeks : NULL,
+				'weekly_amount' 	=> isset($weekly_amount) ? $weekly_amount : NULL,
+				'stay_days' 		=> isset($stay_days) ? $stay_days : NULL,
+				'daily_amount' 		=> isset($daily_amount) ? $daily_amount : NULL,
+				'stay_hours' 		=> isset($stay_hours) ? $stay_hours : NULL,
+				'hourly_amount' 	=> isset($hourly_amount) ? $hourly_amount : NULL,
+				'booking_amount' 	=> $booking_amount
+			]
+		];
 	}
 }
