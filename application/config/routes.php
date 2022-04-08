@@ -114,5 +114,7 @@ $route['api/calculate-price'] = 'Api/priceCalculation';
 // $route['api/profile/(:any)'] = 'Api/profile/$1';
 $route['api/booking-history/(:any)'] = 'Api/bookingHistory/$1';
 $route['api/get-booking-detail/(:any)'] = 'Api/getBookingDetail/$1';
+$route['api/create-booking'] = 'Api/createBooking';
+// echo '<pre>'; print_r($route);die;
 
 $route['translate_uri_dashes'] = FALSE;

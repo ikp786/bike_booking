@@ -9,6 +9,7 @@ class Api extends MY_Controller
 		parent::__construct();
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
+		$this->load->model('UserModel', 'UM');
 
 		// $this->load->model('AdminModel','AM');		
 		// $this->load->library('session');
@@ -805,7 +806,7 @@ class Api extends MY_Controller
 	}
 
 
-	
+
 	public function bookingHistory($user_id)
 	{
 		$method = $this->input->server('REQUEST_METHOD');
@@ -815,7 +816,7 @@ class Api extends MY_Controller
 				"message" => 'bad request',
 				'data' => array(),
 			);
-		} else {			
+		} else {
 			$data = $this->db
 				->from('booking_order as bo,model_at_branch as mab ')
 				->select('m.id as model_id,m.model_name,mab.hourly_rate,mab.free_km,mf.manufacturer_name,bo.total_amount,bo.from_date,bo.to_date,bo.book_status,bo.id as booking_id')
@@ -823,8 +824,8 @@ class Api extends MY_Controller
 				->join('manufacturer as mf', 'mf.id = m.manufacturer_id')
 				->where('bo.user_id', $user_id)
 				->group_by('model_id')
-				->get('booking_order')->result();				
-			if (!empty($data)) {				
+				->get('booking_order')->result();
+			if (!empty($data)) {
 				$output = array(
 					"status" => 200,
 					"message" => 'get Booking successfully.',
@@ -840,7 +841,7 @@ class Api extends MY_Controller
 		echo json_encode($output);
 		die;
 	}
-	
+
 	public function getBookingDetail($booking_id)
 	{
 		$method = $this->input->server('REQUEST_METHOD');
@@ -850,7 +851,7 @@ class Api extends MY_Controller
 				"message" => 'bad request',
 				'data' => array(),
 			);
-		} else {			
+		} else {
 			$data = $this->db
 				->from('booking_order as bo,model_at_branch as mab ')
 				->select('m.id as model_id,m.model_name,mab.hourly_rate,mab.free_km,mf.manufacturer_name,bo.total_amount,bo.from_date,bo.to_date,bo.book_status,bo.id as booking_id')
@@ -858,8 +859,8 @@ class Api extends MY_Controller
 				->join('manufacturer as mf', 'mf.id = m.manufacturer_id')
 				->where('bo.id', $booking_id)
 				->group_by('model_id')
-				->get('booking_order')->row();				
-			if (!empty($data)) {				
+				->get('booking_order')->row();
+			if (!empty($data)) {
 				$output = array(
 					"status" => 200,
 					"message" => 'get booking successfully.',
@@ -876,9 +877,10 @@ class Api extends MY_Controller
 		die;
 	}
 
-	public function get_booking_duration($Interval){
+	public function get_booking_duration($Interval)
+	{
 		$Difference["hours"] = $Interval->h;
-		$Difference["weeks"] = floor($Interval->d/7);
+		$Difference["weeks"] = floor($Interval->d / 7);
 		$Difference["days"] = $Interval->d % 7;
 		$Difference["months"] = $Interval->m;
 
@@ -921,16 +923,16 @@ class Api extends MY_Controller
 			else
 				$available_qty = 0;
 
-				$_from_datetime = new DateTime($start_date);
-				$_to_datetime   = new DateTime($end_date);
-				$interval = $_from_datetime->diff($_to_datetime);
-				
-				$total_hours = $interval->format('%H');
-				$total_days  = $interval->format('%d');
-				$total_months= $interval->format('%m');
-				
-				$booking_duration = $this->get_booking_duration($interval);
-				
+			$_from_datetime = new DateTime($start_date);
+			$_to_datetime   = new DateTime($end_date);
+			$interval = $_from_datetime->diff($_to_datetime);
+
+			$total_hours = $interval->format('%H');
+			$total_days  = $interval->format('%d');
+			$total_months = $interval->format('%m');
+
+			$booking_duration = $this->get_booking_duration($interval);
+
 
 			$data->available_qty = $available_qty;
 			// calculate bookin durations
@@ -940,13 +942,154 @@ class Api extends MY_Controller
 			$tax 							= $boobking_amount['calculate_price']['booking_amount'] * 18 / 100;
 			$booking_arr['basic_info'] 	    = $data;
 			$booking_arr['price_calculations']['total_charges'] 	= $boobking_amount['calculate_price']['booking_amount'];
-			$booking_arr['price_calculations']['tax'] 			= $tax;
-			$booking_arr['price_calculations']['total_with_tax']  = $boobking_amount['calculate_price']['booking_amount'] + $tax;
+			$booking_arr['price_calculations']['tax'] 				= $tax;
+			$booking_arr['price_calculations']['total_with_tax'] 	= $boobking_amount['calculate_price']['booking_amount'] + $tax;
 			$booking_arr['total_day']		= $total_day;
 			$output = array(
 				"status" => 200,
 				"message" => 'Bike get successfully.',
 				'data' => $booking_arr,
+			);
+		}
+		echo json_encode($output);
+		die;
+	}
+
+	// CREATE BOOKING
+
+	public function createBooking()
+	{
+
+		$method = $this->input->server('REQUEST_METHOD');
+		if ($method != 'POST') {
+			$output = array(
+				"status" => Failure,
+				"message" => 'bad request',
+				'data' => array(),
+			);
+		} else {
+
+			$body = file_get_contents('php://input');
+			$postData  = (array) json_decode($body);
+			if (!array_key_exists("start_date", $postData)) {
+				$this->form_validation->set_rules('start_date', 'Start Date', 'required');
+			}
+			if (!array_key_exists("end_date", $postData)) {
+				$this->form_validation->set_rules('end_date', 'End Date', 'required');
+			}
+			if (!array_key_exists("city_id", $postData)) {
+				$this->form_validation->set_rules('city_id', 'City Id', 'required');
+			}
+			if (!array_key_exists("model_id", $postData)) {
+				$this->form_validation->set_rules('model_id', 'Model Id', 'required');
+			}
+			$this->form_validation->set_rules('test', 'TestValidation', 'required', array('required' => 'validationErrorMessage'));
+
+			if (isset($dddd) && !$this->form_validation->run() == FALSE) {
+				$ddd = current(array_values($this->form_validation->error_array())); //die;
+				$output = array(
+					'status' => 400,
+					'message' => $ddd,
+				);
+				if ($ddd != 'validationErrorMessage') {
+					echo json_encode($output);
+					die;
+				}
+			}
+
+			$start_date  = $postData['start_date'];
+			$end_date    = $postData['end_date'];
+			$city_id     = $postData['city_id'];
+			$model_id    = $postData['model_id'];
+			$data = $this->db
+				->from('branch as b,model_at_branch as mab ')
+				->select('m.id as model_id,m.model_name,mab.hourly_rate,mab.free_km,mf.manufacturer_name')
+				->join('model as m', 'm.id = mab.model_id')
+				->join('manufacturer mf', 'mf.id = m.manufacturer_id')
+				->where('mab.model_id', $model_id)
+				->where('mab.city_id', $city_id)
+				->group_by('model_id')
+				->get('branch')->row();
+			$checkTotalBikeInCity = $this->db
+				->select_sum('available_qty')
+				->where(['city_id' => $city_id, 'model_id' => $model_id])
+				->get('model_at_branch')->row();
+
+			$totalOrderThisModel = $this->db->where('from_date >=', $start_date)->where('to_date <=', $end_date)->where('model_id', $model_id)->where('city_id', $city_id)->get('booking_order')->num_rows();
+			if (isset($checkTotalBikeInCity->available_qty) && is_int($totalOrderThisModel))
+				$available_qty = (int) $checkTotalBikeInCity->available_qty - (int) $totalOrderThisModel;
+			else
+				$available_qty = 0;
+
+			$_from_datetime = new DateTime($start_date);
+			$_to_datetime   = new DateTime($end_date);
+			$interval = $_from_datetime->diff($_to_datetime);
+
+			$total_hours = $interval->format('%H');
+			$total_days  = $interval->format('%d');
+			$total_months = $interval->format('%m');
+
+			$booking_duration = $this->get_booking_duration($interval);
+
+
+			$data->available_qty = $available_qty;
+			// calculate bookin durations
+			$datediff = strtotime($end_date) - strtotime($start_date);
+			$total_day	  = round($datediff / (60 * 60 * 24)) . ' day';
+			$boobking_amount = $this->calculate_booking_amount($model_id, $city_id, $start_date, $end_date);
+			// echo '<pre>';
+			// print_r($boobking_amount);
+			// die;
+			$tax 							= $boobking_amount['calculate_price']['booking_amount'] * 18 / 100;
+			$booking_arr['basic_info'] 	    = $data;
+			$booking_arr['price_calculations']['total_charges'] 	= $boobking_amount['calculate_price']['booking_amount'];
+			$booking_arr['price_calculations']['tax'] 				= $tax;
+			$booking_arr['price_calculations']['total_with_tax'] 	= $boobking_amount['calculate_price']['booking_amount'] + $tax;
+			$booking_arr['total_day']		= $total_day;
+			// print_r($boobking_amount);die;
+			$orderData = [
+				"to_date"                => $end_date,
+				"from_date"              => $start_date,
+				"user_id"                => $postData['user_id'],
+				"model_at_branch_id"     => 1,//$order->id,
+				"model_id"     			 => $postData['model_id'],
+				"city_id"				 => $city_id,
+				"model_name"             => 'r15',//$order->model_name,
+				// "image_url"              => $order->image_url,
+				// "refundtable_deposit"    => $order->deposit_amount,
+				"pricing"                => 0,
+
+				"monthly_rate"			=> $boobking_amount['property_price']['monthly_rate'],
+				"weekly_rate"			=> $boobking_amount['property_price']['weekly_rate'],
+				"daily_rate"			=> $boobking_amount['property_price']['perday_rate'],
+				"hourly_rate"			=> $boobking_amount['property_price']['hourly_rate'],
+				"stay_months"			=> $boobking_amount['calculate_price']['stay_months'] ?? 0,
+				"monthly_amount"		=> $boobking_amount['calculate_price']['monthly_amount'] ?? 0,
+				"stay_weeks"			=> $boobking_amount['calculate_price']['stay_weeks'],
+				"weekly_amount"			=> $boobking_amount['calculate_price']['weekly_amount'],
+				"stay_days"				=> $boobking_amount['calculate_price']['stay_days'],
+				"daily_amount"			=> $boobking_amount['calculate_price']['daily_amount'],
+				"stay_hours"			=> $boobking_amount['calculate_price']['stay_hours'],
+				"hourly_amount"			=> $boobking_amount['calculate_price']['hourly_amount'],
+				"total_amount"          => $total_day,
+				// "coupon_code"			 => ($post['couponCode'])?$post['couponCode']:'',
+				// "coupon_Amt"			 => ($post['couponAmt'])?$post['couponAmt']:0,
+				"status"                 => 1,
+				"book_status"            => 1,
+				"extaHelmet"             => $postData['extaHelmet'],
+				"booked_type_id"         => 1,//$_SESSION['booked_type_id']
+			];
+			// echo '<pre>';s
+			// print_r($orderData);die;
+			$orderPlaced = $this->UM->insertData('booking_order', $orderData);
+
+			// echo '<pre>';
+			// print_r($booking_arr);
+			// die;
+			$output = array(
+				"status" => 200,
+				"message" => 'Bike book successfully.',
+				// 'data' => $booking_arr,
 			);
 		}
 		echo json_encode($output);
